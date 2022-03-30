@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>源码测试</title>
+    <script src="../dist/vue.js"></script>
+</head>
+<body>
+    <div id="test">
+        <div>姓名：{{name}}</div>
+        <div>年龄: {{age}}</div>
+        <div>十年后年龄: {{ageOlder}} </div>
+        <button @click='addAge'> 年龄加 1</button>
+        <testChild></testChild>
+    </div>
+
+
+
+
+    <script>
+        // var testChild = new Vue({
+        //     el: '#test_child',
+        //     data(){
+        //         return {
+        //             msg: '这是一段信息'
+        //         }
+        //     }
+        // })
+        Vue.component( 'testChild', {
+            template:`
+                <div>
+                    <div>这是个子组件</div>
+                    <div>
+                </div>`
+        })
+        var vm = new Vue({
+            el: '#test',
+            data: {
+                name: '鱼鱼鱼',
+                age: 11,
+            },
+            created() {
+                console.log(testChild, '子组件');
+            },
+            watch:{
+                age: {
+                    handler(val,old){
+                        console.log('新：',val,  '旧:', old);
+                    },
+                }
+            },
+            computed:{
+                ageOlder() {
+                    const older = this.age + 10
+                    // console.log(older, 'olderolderolder');
+                    return older;
+                }
+            },
+            methods: {
+                addAge() {
+                    this.age++;
+                }
+            },
+            // component: {
+            //     'test-child': testChild
+            // }
+        })
+
+    </script>
+</body>
+</html>
